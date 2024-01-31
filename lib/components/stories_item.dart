@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pemula_submission/helper/name_formatter.dart';
 
 class StoriesItem extends StatelessWidget {
   final bool isHasStory;
@@ -9,25 +10,6 @@ class StoriesItem extends StatelessWidget {
       required this.name,
       this.isHasStory = true,
       this.isUserStory = false});
-
-  String getShortName(String name) {
-    List<String> words = name.split(' ');
-    String initials = '';
-
-    for (var word in words) {
-      if (word.isNotEmpty) {
-        initials += word[0].toUpperCase();
-      }
-    }
-
-    if (initials.length == 1) {
-      return initials + initials;
-    } else if (initials.length > 2) {
-      return initials.substring(0, 2);
-    } else {
-      return initials;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {

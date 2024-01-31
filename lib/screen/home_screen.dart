@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pemula_submission/components/feed_list.dart';
 import 'package:flutter_pemula_submission/components/stories_list.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -15,17 +16,49 @@ class HomeScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.favorite_border),
+            icon: const Icon(
+              Icons.favorite_border,
+              size: 32,
+            ),
           ),
           IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.message_outlined),
+            icon: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                const Icon(
+                  Icons.offline_bolt_outlined,
+                  size: 32,
+                ),
+                Positioned(
+                  top: -5,
+                  left: 15,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+                      child: Text(
+                        '10',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
           )
         ],
       ),
       body: const SingleChildScrollView(
         child: Column(
-          children: [StoriesList()],
+          children: [StoriesList(), FeedList()],
         ),
       ),
     );
