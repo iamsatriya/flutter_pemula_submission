@@ -7,6 +7,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -57,9 +59,14 @@ class HomeScreen extends StatelessWidget {
           )
         ],
       ),
-      body: const SingleChildScrollView(
-        child: Column(
-          children: [StoriesList(), FeedList()],
+      body: SingleChildScrollView(
+        child: Center(
+          child: Container(
+            width: screenSize.width > 1200 ? 800 : screenSize.width,
+            child: Column(
+              children: [StoriesList(), FeedList()],
+            ),
+          ),
         ),
       ),
     );
