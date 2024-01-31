@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pemula_submission/screen/home_screen.dart';
+import 'package:flutter_pemula_submission/screen/login_screen.dart';
 
 void main() {
   runApp(const MainApp());
@@ -12,7 +12,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      home: LoginScreen(),
     );
   }
 }

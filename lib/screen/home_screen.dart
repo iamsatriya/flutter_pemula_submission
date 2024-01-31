@@ -13,6 +13,7 @@ class HomeScreen extends StatelessWidget {
           'Instagram',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
+        automaticallyImplyLeading: false,
         actions: [
           IconButton(
             onPressed: () {},
