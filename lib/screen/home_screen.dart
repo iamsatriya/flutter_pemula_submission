@@ -61,9 +61,9 @@ class HomeScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Center(
-          child: Container(
+          child: SizedBox(
             width: screenSize.width > 1200 ? 800 : screenSize.width,
-            child: Column(
+            child: const Column(
               children: [StoriesList(), FeedList()],
             ),
           ),

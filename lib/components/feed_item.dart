@@ -3,9 +3,28 @@ import 'package:flutter_pemula_submission/data/feed.dart';
 import 'package:flutter_pemula_submission/helper/name_formatter.dart';
 import 'package:flutter_pemula_submission/helper/time_formatter.dart';
 
-class FeedItem extends StatelessWidget {
+class FeedItem extends StatefulWidget {
   final Feed feed;
   const FeedItem({super.key, required this.feed});
+
+  @override
+  State<FeedItem> createState() => _FeedItemState();
+}
+
+class _FeedItemState extends State<FeedItem> {
+  late bool _isLikedByCurrentUser;
+  late bool _isSavedByCurrentUser;
+
+  void initializeFeedItem() {
+    _isLikedByCurrentUser = widget.feed.isLikedByCurrentUser;
+    _isSavedByCurrentUser = widget.feed.isSavedByCurrentUser;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initializeFeedItem();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,18 +40,18 @@ class FeedItem extends StatelessWidget {
                   CircleAvatar(
                     radius: 16,
                     child: Text(
-                      getShortName(feed.accountName),
+                      getShortName(widget.feed.accountName),
                       style: const TextStyle(fontSize: 12),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 4),
                     child: Text(
-                      feed.accountName,
+                      widget.feed.accountName,
                       style: const TextStyle(fontWeight: FontWeight.w500),
                     ),
                   ),
-                  if (feed.isVerified)
+                  if (widget.feed.isVerified)
                     const Icon(
                       Icons.verified,
                       color: Colors.blue,
@@ -47,19 +66,23 @@ class FeedItem extends StatelessWidget {
             ],
           ),
         ),
-        Image.network(feed.imgUrl),
+        Image.network(widget.feed.imgUrl),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
               children: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {
+                      _isLikedByCurrentUser = !_isLikedByCurrentUser;
+                    });
+                  },
                   icon: Icon(
-                    feed.isLikedByCurrentUser
+                    _isLikedByCurrentUser
                         ? Icons.favorite
                         : Icons.favorite_border,
-                    color: feed.isLikedByCurrentUser ? Colors.red : null,
+                    color: _isLikedByCurrentUser ? Colors.red : null,
                   ),
                 ),
                 IconButton(
@@ -73,8 +96,25 @@ class FeedItem extends StatelessWidget {
               ],
             ),
             IconButton(
-              onPressed: () {},
-              icon: Icon(feed.isSavedByCurrentUser
+              onPressed: () {
+                final snackBar = SnackBar(
+                  duration: const Duration(seconds: 1),
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  elevation: 0,
+                  backgroundColor: Colors.grey[700],
+                  content: Text(_isSavedByCurrentUser
+                      ? 'Removed from your favorite!'
+                      : 'Added to your favorite!'),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                setState(() {
+                  _isSavedByCurrentUser = !_isSavedByCurrentUser;
+                });
+              },
+              icon: Icon(_isSavedByCurrentUser
                   ? Icons.bookmark
                   : Icons.bookmark_outline),
             )
@@ -86,7 +126,7 @@ class FeedItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                '${feed.totalLikes} likes',
+                '${widget.feed.totalLikes} likes',
                 style: const TextStyle(fontWeight: FontWeight.w500),
               ),
               RichText(
@@ -96,11 +136,11 @@ class FeedItem extends StatelessWidget {
                   style: DefaultTextStyle.of(context).style,
                   children: [
                     TextSpan(
-                      text: '${feed.accountName} ',
+                      text: '${widget.feed.accountName} ',
                       style: const TextStyle(fontWeight: FontWeight.w500),
                     ),
                     TextSpan(
-                      text: feed.description,
+                      text: widget.feed.description,
                     )
                   ],
                 ),
@@ -109,7 +149,7 @@ class FeedItem extends StatelessWidget {
               GestureDetector(
                 onTap: () {},
                 child: Text(
-                  'View all ${feed.totalComments} comments',
+                  'View all ${widget.feed.totalComments} comments',
                   style: const TextStyle(color: Colors.grey),
                 ),
               ),
@@ -135,7 +175,7 @@ class FeedItem extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               Text(
-                timeAgo(feed.postingTime),
+                timeAgo(widget.feed.postingTime),
                 style: const TextStyle(
                   fontSize: 10,
                   color: Colors.grey,
